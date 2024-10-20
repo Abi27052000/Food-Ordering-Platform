@@ -35,4 +35,16 @@ jwtCheck,
     MyRestaurantController.createMyRestaurant(req, res);
 });
 
+
+router.put(
+  "/",
+  upload.single("imageFile"),
+  ...validateMyRestaurantRequest as express.RequestHandler[],  // Explicit type assertion
+  jwtCheck,
+  (req: Request, res: Response, next: NextFunction) => { jwtParse(req, res, next); },
+  (req, res) => {
+    MyRestaurantController.updateMyRestaurant(req, res);
+});
+
+
 export default router;
