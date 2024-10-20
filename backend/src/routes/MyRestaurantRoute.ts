@@ -17,6 +17,14 @@ const upload = multer({
 
 
 //  /api/my/restaurant
+router.get("/", jwtCheck, 
+  (req: Request, res: Response, next: NextFunction) => { jwtParse(req, res, next); },
+  (req, res) => {
+    MyRestaurantController.getMyRestaurant(req, res);
+});
+
+
+
 router.post("/",
     upload.single("imageFile"),
     ...validateMyRestaurantRequest as express.RequestHandler[],  // Explicit type assertion
