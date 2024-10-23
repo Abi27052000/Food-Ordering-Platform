@@ -13,7 +13,7 @@ export const useSearchRestaurants = (
     const createSearchRequest = async ():Promise<RestaurantSearchResponse>=> {
       const params = new URLSearchParams();
       params.set("searchQuery", searchState.searchQuery);
-    //   params.set("page", searchState.page.toString());
+      params.set("page", searchState.page.toString());
     //   params.set("selectedCuisines", searchState.selectedCuisines.join(","));
     //   params.set("sortOption", searchState.sortOption);
   
