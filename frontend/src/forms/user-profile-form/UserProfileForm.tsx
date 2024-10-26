@@ -32,8 +32,8 @@ type Props = {
   currentUser: User;
   onSave: (userProfileData: UserFormData) => void;
   isLoading: boolean;
-//   title?: string;
-//   buttonText?: string;
+  title?: string;
+  buttonText?: string;
 };
 
 const UserProfileForm = (
@@ -41,8 +41,8 @@ const UserProfileForm = (
   onSave,
   isLoading,
   currentUser,
-//   title = "User Profile",
-//   buttonText = "Submit",
+  title = "User Profile",
+  buttonText = "Submit",
 }: Props) => {
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
@@ -60,7 +60,7 @@ const UserProfileForm = (
         className="space-y-4 bg-gray-50 rounded-lg md:p-10"
       >
         <div>
-          <h2 className="text-2xl font-bold">USER PROFILE FORM</h2>
+          <h2 className="text-2xl font-bold">{title}</h2>
           <FormDescription>
             View and change your profile information here
           </FormDescription>
@@ -136,7 +136,7 @@ const UserProfileForm = (
         {isLoading ? (
           <LoadingButton />
         ) : (
-          <Button type="submit" className="bg-orange-500">Submit
+          <Button type="submit" className="bg-orange-500">{buttonText}
             {/* {buttonText} */}
           </Button>
         )}
