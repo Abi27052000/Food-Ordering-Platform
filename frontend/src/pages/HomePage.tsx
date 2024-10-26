@@ -31,7 +31,7 @@ const HomePage = () => {
 
           </span>
           <span>
-            Download The MernEats App For Faster Ordering And Personalized Recommendations
+            Download The FoodEats App For Faster Ordering And Personalized Recommendations
           </span>
           <img src={appDownloadImage} alt="appDownloadImage" />
 

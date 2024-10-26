@@ -1,13 +1,76 @@
 import { useGetRestaurant } from "@/api/RestaurantApi";
 import MenuItems from "@/components/MenuItems";
+import OrderSummary from "@/components/OrderSummary";
 import RestaurantInfo from "@/components/RestaurantInfo";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardFooter } from "@/components/ui/card";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { MenuItem as MenuItemType } from "../types";
+
+
+export type CartItem = {
+    _id: string;
+    name: string;
+    price:number;
+    quantity: number;
+}
 
 const DetailPage = () => {
     const { restaurantId } = useParams();
   const { restaurant, isLoading } = useGetRestaurant(restaurantId);
+
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  const addToCart = (menuItem: MenuItemType) => {
+    setCartItems((prevCartItems) => {
+      const existingCartItem = prevCartItems.find(
+        (cartItem) => cartItem._id === menuItem._id
+      );
+
+      let updatedCartItems;
+
+      if (existingCartItem) {
+        updatedCartItems = prevCartItems.map((cartItem) =>
+          cartItem._id === menuItem._id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        );
+      } else {
+        updatedCartItems = [
+          ...prevCartItems,
+          {
+            _id: menuItem._id,
+            name: menuItem.name,
+            price: menuItem.price,
+            quantity: 1,
+          },
+        ];
+      }
+
+    //   sessionStorage.setItem(
+    //     `cartItems-${restaurantId}`,
+    //     JSON.stringify(updatedCartItems)
+    //   );
+
+      return updatedCartItems;
+    });
+  };
+
+  const removeFromCart = (cartItem: CartItem) => {
+    setCartItems((prevCartItems) => {
+      const updatedCartItems = prevCartItems.filter(
+        (item) => cartItem._id !== item._id
+      );
+
+    //   sessionStorage.setItem(
+    //     `cartItems-${restaurantId}`,
+    //     JSON.stringify(updatedCartItems)
+    //   );
+
+      return updatedCartItems;
+    });
+  };
 
   if (isLoading || !restaurant) {
     return "Loading...";
@@ -28,18 +91,19 @@ const DetailPage = () => {
           {restaurant.menuItems.map((menuItem) => (
             <MenuItems
               menuItem={menuItem}
-            //   addToCart={() => addToCart(menuItem)}
+              addToCart={() => addToCart(menuItem)}
             />
           ))}
         </div>
 
         <div>
           <Card>
-            {/* <OrderSummary
+            <OrderSummary
               restaurant={restaurant}
               cartItems={cartItems}
-              removeFromCart={removeFromCart}
-            /> */}
+              removeFromCart ={removeFromCart}
+              
+            />
             <CardFooter>
               {/* <CheckoutButton
                 disabled={cartItems.length === 0}
