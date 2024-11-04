@@ -15,13 +15,35 @@ const upload = multer({
   },
 });
 
+router.get(
+  "/order",
+  jwtCheck,
+  (req: Request, res: Response, next: NextFunction) => { jwtParse(req, res, next); },
+  (req, res) => {
+    MyRestaurantController.getMyRestaurantOrders(req, res);
+}
+);
+
+router.patch(
+  "/order/:orderId/status",
+  jwtCheck,
+  (req: Request, res: Response, next: NextFunction) => { jwtParse(req, res, next); },
+  
+  (req, res) => {
+    MyRestaurantController.updateOrderStatus(req, res);
+}
+);
+
+
+
 
 //  /api/my/restaurant
 router.get("/", jwtCheck, 
   (req: Request, res: Response, next: NextFunction) => { jwtParse(req, res, next); },
   (req, res) => {
     MyRestaurantController.getMyRestaurant(req, res);
-});
+}
+);
 
 
 
